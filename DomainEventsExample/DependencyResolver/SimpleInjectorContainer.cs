@@ -6,26 +6,27 @@ namespace DomainEventsExample.DependencyResolver
 { 
     public static class SimpleInjectorContainer
     {
+
+        private static readonly Container _container;
+
         static SimpleInjectorContainer()
         {
-            Container = new Container();
+            _container = new Container();
         }
-
-        private static readonly Container Container;
 
         public static Container RegisterServices()
         {
-            Container.RegisterManyForOpenGeneric(typeof(IHandle<>),
-                (serviceType, implementationTypes) => Container.RegisterAll(serviceType, implementationTypes),
+            _container.RegisterManyForOpenGeneric(typeof(IHandle<>),
+                (serviceType, implementationTypes) => _container.RegisterAll(serviceType, implementationTypes),
                 typeof(IHandle<>).Assembly);
 
-            Container.Verify();
-            return Container;
+            _container.Verify();
+            return _container;
         }
 
         public static Container GetContainer()
         {
-            return Container;
+            return _container;
         }
     }
 }
