@@ -16,9 +16,7 @@ namespace DomainEventsExample.DependencyResolver
 
         public static Container RegisterServices()
         {
-            _container.RegisterManyForOpenGeneric(typeof(IHandle<>),
-                (serviceType, implementationTypes) => _container.RegisterAll(serviceType, implementationTypes),
-                typeof(IHandle<>).Assembly);
+             _container.RegisterCollection(typeof(IHandle<>), typeof(IHandle<>).Assembly);
 
             _container.Verify();
             return _container;
